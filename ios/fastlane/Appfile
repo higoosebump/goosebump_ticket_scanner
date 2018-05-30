@@ -1,0 +1,8 @@
+app_identifier("com.goosebump-scanner") # The bundle identifier of your app
+apple_id("axel.delafosse@epitech.eu") # Your Apple email address
+
+itc_team_id("119009746") # iTunes Connect Team ID
+team_id("3RSX3Y59GX") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

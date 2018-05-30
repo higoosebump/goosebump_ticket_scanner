@@ -1,0 +1,15 @@
+{
+    "extends": [
+        "react-native-prettier"
+    ],
+    "rules": {
+        "prettier/prettier": ["error", {
+            "singleQuote": true,
+            "trailingComma": "none",
+            "bracketSpacing": true,
+            "jsxBracketSameLine": true,
+            "semi": false,
+            "parser": "babylon"
+        }]
+    }
+}

@@ -1,0 +1,101 @@
+patch-package
+--- a/node_modules/react-native-qrcode-scanner/index.js
++++ b/node_modules/react-native-qrcode-scanner/index.js
+@@ -17,6 +17,7 @@ import {
+ 
+ import Permissions from 'react-native-permissions'
+ import { RNCamera as Camera } from 'react-native-camera'
++import Icon from 'react-native-vector-icons/FontAwesome'
+ 
+ const PERMISSION_AUTHORIZED = 'authorized';
+ const CAMERA_PERMISSION = 'camera';
+@@ -95,6 +96,7 @@ export default class QRCodeScanner extends Component {
+       fadeInOpacity: new Animated.Value(0),
+       isAuthorized: false,
+       isAuthorizationChecked: false,
++      torch: false,
+     }
+ 
+     this._handleBarCodeRead = this._handleBarCodeRead.bind(this);
+@@ -141,6 +143,10 @@ export default class QRCodeScanner extends Component {
+     }
+   }
+ 
++  _torch() {
++    this.setState({ torch: !this.state.torch })
++  }
++
+   _setScanning(value) {
+     this.setState({ scanning: value });
+   }
+@@ -200,7 +206,18 @@ export default class QRCodeScanner extends Component {
+               style={[styles.camera, this.props.cameraStyle]} 
+               onBarCodeRead={this._handleBarCodeRead.bind(this)}
+               type={this.props.cameraType}
+-            >
++              flashMode={
++                this.state.torch
++                  ? Camera.Constants.FlashMode.torch
++                  : Camera.Constants.FlashMode.off
++              }>
++              <Icon.Button
++                name="bolt"
++                size={30}
++                backgroundColor={'transparent'}
++                iconStyle={styles.icon}
++                onPress={this._torch.bind(this)}
++              />
+               {this._renderCameraMarker()}
+             </Camera>
+           </Animated.View>
+@@ -211,7 +228,18 @@ export default class QRCodeScanner extends Component {
+           type={cameraType}
+           style={[styles.camera, this.props.cameraStyle]}
+           onBarCodeRead={this._handleBarCodeRead.bind(this)}
+-        >
++          flashMode={
++            this.state.torch
++              ? Camera.Constants.FlashMode.torch
++              : Camera.Constants.FlashMode.off
++          }>
++          <Icon.Button
++            name="bolt"
++            size={30}
++            backgroundColor={'transparent'}
++            iconStyle={styles.icon}
++            onPress={this._torch.bind(this)}
++          />
+           {this._renderCameraMarker()}
+         </Camera>
+       )
+@@ -243,7 +271,7 @@ export default class QRCodeScanner extends Component {
+ 
+ const styles = StyleSheet.create({
+   mainContainer: {
+-    flex: 1
++    flex: 0
+   },
+   infoView: {
+     flex: 2,
+@@ -254,10 +282,8 @@ const styles = StyleSheet.create({
+ 
+   camera: {
+     flex: 0,
+-    alignItems: 'center',
+-    justifyContent: 'center',
+     backgroundColor: 'transparent',
+-    height: Dimensions.get('window').width,
++    height: 0.6 * Dimensions.get('window').height,
+     width: Dimensions.get('window').width,
+   },
+ 
+@@ -275,4 +301,9 @@ const styles = StyleSheet.create({
+     borderColor: '#00FF00',
+     backgroundColor: 'transparent',
+   },
++
++  icon: {
++    paddingTop: 15,
++    paddingLeft: 10
++  }
+ })
